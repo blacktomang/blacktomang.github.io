@@ -29,7 +29,7 @@ export const Example = (props) => {
   const { isOpen, toggleOpen } = props;
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
-
+  console.log(height);
   return (
     <motion.nav
       initial={false}
