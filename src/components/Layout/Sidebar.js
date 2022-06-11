@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useDimensions } from "../../use-dimention";
 import { MenuToggle } from "./MenuToggle";
 import { Navigation } from "./Navigation";
+import './Sidebar.css';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -25,13 +26,14 @@ const sidebar = {
   }
 };
 
-export const Example = (props) => {
+export const Sidebar = (props) => {
   const { isOpen, toggleOpen } = props;
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
   console.log(height);
   return (
     <motion.nav
+      className="sidebar"
       initial={false}
       animate={isOpen ? "open" : "closed"}
       custom={height}
@@ -40,7 +42,6 @@ export const Example = (props) => {
       <motion.div className="background" variants={sidebar} />
       <Navigation />
       <MenuToggle toggle={() => toggleOpen()} />
-      ffff
     </motion.nav>
   );
 };

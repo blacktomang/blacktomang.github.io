@@ -1,17 +1,30 @@
-.container {
-  /* display: flex;
-  align-items: center;
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  display: flex;
   justify-content: center;
-  flex-direction:column; */
-  min-height: 100vh;
-  /* background: #222222; */
-   /* background-image: linear-gradient(to right, #06283D,#1363DF,#47B5FF,#DFF6FF); */
+  align-items: center;
+  perspective: 500px;
+  /* background: linear-gradient(180deg, #05f, #09f); */
+}
+.container {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  place-content: center;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
 }
 
-circle,
-rect,
-line {
-  stroke-width: 10px;
+.item {
+  width: 56%;
+  overflow: visible;
+  stroke: #000;
+  stroke-width: 2;
+  stroke-linejoin: round;
   stroke-linecap: round;
-  fill: transparent;
 }

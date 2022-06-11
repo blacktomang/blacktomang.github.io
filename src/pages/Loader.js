@@ -2,76 +2,37 @@ import { motion } from "framer-motion";
 import React from "react";
 import './loader.css';
 
-const LoadingDot = {
-  display: "block",
-  width: "1rem",
-  height: "1rem",
-  backgroundColor: "var(--dark-blue)",
-  borderRadius: "50%"
-};
-
-const LoadingContainer = {
-  width: "5rem",
-  height: "5rem",
-  display: "flex",
-  justifyContent: "space-around"
-};
-
-const ContainerVariants = {
-  initial: {
-    transition: {
-      staggerChildren: 0.2
-    }
+const icon = {
+  hidden: {
+    pathLength: 0,
+    fill: "rgba(0, 0, 0, 0)"
   },
-  animate: {
-    transition: {
-      staggerChildren: 0.2
-    }
+  visible: {
+    pathLength: 1,
+    fill: "rgba(0, 0, 0, 1)"
   }
-};
-
-const DotVariants = {
-  initial: {
-    y: "0%"
-  },
-  animate: {
-    y: "100%"
-  }
-};
-
-const DotTransition = {
-  duration: 0.5,
-  yoyo: Infinity,
-  ease: "easeInOut"
-};
-
+}
 export default function Loader() {
   return (
     <div
       className="container"
     >
-      <motion.div
-        style={LoadingContainer}
-        variants={ContainerVariants}
-        initial="initial"
-        animate="animate"
+      <motion.svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 100 100"
+        className="item"
       >
-        <motion.span
-          style={LoadingDot}
-          variants={DotVariants}
-          transition={DotTransition}
+        <motion.path
+          d="M0 100V0l50 50 50-50v100L75 75l-25 25-25-25z"
+          variants={icon}
+          initial="hidden"
+          animate="visible"
+          transition={{
+            default: { duration: 2, ease: "easeInOut" },
+            fill: { duration: 2, ease: [1, 0, 0.8, 1] }
+          }}
         />
-        <motion.span
-          style={LoadingDot}
-          variants={DotVariants}
-          transition={DotTransition}
-        />
-        <motion.span
-          style={LoadingDot}
-          variants={DotVariants}
-          transition={DotTransition}
-        />
-      </motion.div>
+      </motion.svg>
     </div>
   );
 }
