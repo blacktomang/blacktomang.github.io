@@ -1,0 +1,17 @@
+.container {
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction:column; */
+  min-height: 100vh;
+  /* background: #222222; */
+   /* background-image: linear-gradient(to right, #06283D,#1363DF,#47B5FF,#DFF6FF); */
+}
+
+circle,
+rect,
+line {
+  stroke-width: 10px;
+  stroke-linecap: round;
+  fill: transparent;
+}
