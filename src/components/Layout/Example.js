@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRef } from "react";
-import { motion, useCycle } from "framer-motion";
+import { motion } from "framer-motion";
 import { useDimensions } from "../../use-dimention";
 import { MenuToggle } from "./MenuToggle";
 import { Navigation } from "./Navigation";
@@ -27,7 +27,6 @@ const sidebar = {
 
 export const Example = (props) => {
   const { isOpen, toggleOpen } = props;
-  // alert(isOpen ? "true" : "false");
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
 
