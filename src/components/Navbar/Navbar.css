@@ -7,10 +7,11 @@
 .navbar ul{
   display:flex;
   justify-content:space-between;
+  margin-top:50px
 }
 
 .navbar .link{
-  padding:0 1.5em;
+  margin-right:1.5em;
   font-weight:bold;
   font-size:.9em;
   color:var(--dark-blue);
@@ -18,7 +19,7 @@
 
 
 .navbar .icon{
-  margin:0 .8em;
+  margin-left:1.5em;
   color:var(--dark-blue);
 }
 @media only screen and (max-width:768px){
