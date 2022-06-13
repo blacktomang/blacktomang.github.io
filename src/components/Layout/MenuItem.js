@@ -29,7 +29,7 @@ export const MenuItem = ({ i, url, name }) => {
       variants={variants}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
-    >
+      >
       <div className="icon-placeholder" style={style} />
         <div className="text-placeholder" style={Object.assign({ padding: '5px 10px' },style)}>{name}</div>
       </motion.li>

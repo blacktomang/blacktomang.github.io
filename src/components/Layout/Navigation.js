@@ -19,4 +19,4 @@ export const Navigation = () => (
   </motion.ul>
 );
 
-const itemIds = [{ id: 0, name: 'About', url: 'about' }, { id: 1, name:'Projects',url:'projects'}];
+const itemIds = [{ id: 0, name: 'Contact', url: 'contact' }, { id: 1, name:'Works',url:'works'}];
