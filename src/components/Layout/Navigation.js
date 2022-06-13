@@ -11,8 +11,8 @@ const variants = {
   }
 };
 
-export const Navigation = () => (
-  <motion.ul variants={variants}>
+export const Navigation = ({isOpen}) => (
+  <motion.ul variants={variants} style={isOpen ? {} : {display:'none'}}>
     {itemIds.map(i => (
       <MenuItem i={i.id} key={i.id} url={i.url} name={i.name}/>
     ))}

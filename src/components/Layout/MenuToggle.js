@@ -13,10 +13,6 @@ const Path = props => (
 
 export const MenuToggle = ({ toggle }) => (
   <motion.button onClick={toggle}
-  //   variants={{
-  //   closed: { y: 2 },
-  //   open: { y:  2, x:'calc(100vw - 100)'}
-  // }}
   >
     <svg width="23" height="23" viewBox="0 0 23 23">
       <Path

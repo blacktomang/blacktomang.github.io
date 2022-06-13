@@ -26,8 +26,8 @@ function Navbar() {
       </motion.ul>
       <motion.div style={{ display:'flex', flexDirection:'column', alignItems:'center'}}>
         <img src='/logo192.png' alt='logo' height={40} width={40} style={{ marginTop: 30 }} />
-        <p style={{ textTransform: 'uppercase', margin:0, fontWeight:'bold' }}>Syamsul</p>
-        <p style={{ textTransform: 'uppercase', margin:0, fontWeight:'bold' }}>Arifin</p>
+        <p style={{ textTransform: 'uppercase', margin:0, fontWeight:600, fontSize:16 }}>Syamsul</p>
+        <p style={{ textTransform: 'uppercase', margin:0, fontWeight:600, fontSize:16 }}>Arifin</p>
       </motion.div>
       <motion.ul style={{ marginTop: 45 }}>
         {[{ id: 0, icon: <BsFacebook />, url: '' }, { id: 1, icon: <BsGithub />, url: '' }, { id: 2, icon: <BsLinkedin />, url: '' }, { id: 3, icon: <BsInstagram />, url: '' }].map((a) => {

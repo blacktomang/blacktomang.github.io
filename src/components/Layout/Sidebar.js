@@ -52,7 +52,7 @@ export const Sidebar = (props) => {
           </motion.div>
         )}
       </AnimatePresence>
-      <Navigation />
+      <Navigation isOpen={isOpen}/>
       <MenuToggle toggle={() => toggleOpen()} />
     </motion.nav>
   );
