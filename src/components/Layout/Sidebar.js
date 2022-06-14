@@ -30,7 +30,6 @@ export const Sidebar = (props) => {
   const { isOpen, toggleOpen } = props;
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
-  console.log(height);
   return (
     <motion.nav
       className="sidebar"
