@@ -64,7 +64,7 @@ export const Sidebar = (props) => {
           ><Link to={'/home'}>
               
             <img src="/logo-white.png" alt="" height={45} />
-            <p style={{ position: 'absolute', left: -27, top: 34,color:'white' }}>Syamsul Arifin</p>
+            <p style={{ position: 'absolute', left: -27, top: 34,color:'white',width:105 }}>Syamsul Arifin</p>
           </Link>
           </motion.div>
         )}
