@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import { useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -5,6 +6,8 @@ import { useDimensions } from "../../use-dimention";
 import { MenuToggle } from "./MenuToggle";
 import { Navigation } from "./Navigation";
 import './Sidebar.css';
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -30,6 +33,18 @@ export const Sidebar = (props) => {
   const { isOpen, toggleOpen } = props;
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
+
+  const closeOpenMenus = (e) => {
+    // console.info(containerRef.current.contains(e.target), isOpen);
+    if (isOpen && !containerRef.current.contains(e.target)) toggleOpen(a => a = false);
+
+  };
+
+  useEffect(() => {
+    document.body.addEventListener('click', closeOpenMenus);
+    return () => document.body.removeEventListener('click', closeOpenMenus);
+  }, [isOpen])
+  console.log(isOpen);
   return (
     <motion.nav
       className="sidebar"
@@ -39,20 +54,23 @@ export const Sidebar = (props) => {
       ref={containerRef}
     >
       <motion.div className="background" variants={sidebar} />
-      <AnimatePresence>
+      <AnimatePresence >
         {isOpen && (
           <motion.div
-            style={{position:'absolute', left:130, top:23,}}
+            className="logo-name"
             initial={{ opacity: 0, pointsAtX:-10, pointsAtY:-10 }}
             animate={{ opacity: 1, pointsAtX: 100, pointsAtY: 100 }}
             exit={{ opacity: 0, pointsAtX: -10, pointsAtY: -10 }}
-          ><img src="/logo192.png" alt="" height={45} />
-            <p style={{ position: 'fixed', left: 100, top: 57, }}>Syamsul Arifin</p>
+          ><Link to={'/home'}>
+              
+            <img src="/logo-white.png" alt="" height={45} />
+            <p style={{ position: 'absolute', left: -27, top: 34,color:'white' }}>Syamsul Arifin</p>
+          </Link>
           </motion.div>
         )}
       </AnimatePresence>
       <Navigation isOpen={isOpen}/>
-      <MenuToggle toggle={() => toggleOpen()} />
+      <MenuToggle toggle={() => toggleOpen(a=>!a)} />
     </motion.nav>
   );
 };

@@ -24,7 +24,7 @@
 body {
   /* /* width: 100vw; */
   /* height: 100vh;  */
-  background: var(--white);
+  /* background: var(--white); */
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -100,14 +100,14 @@ overflow: hidden;
 transform: translate(-50%, 0);
 left: 50%;
 position: absolute;
-clip-path: ellipse(32% 45% at 50% 50%);
+clip-path: ellipse(35% 43% at 50% 50%);
 }
 .photo-wrapper{
-border: 1px solid var(--light-blue);
+/* border: 1px solid var(--light-blue); */
 position: relative;
-height: 428px;
+height: 350px;
 width: 300px;
-border-radius: 55%;
+/* border-radius: 55%; */
 }
 .my-photo img{
   width:100%;

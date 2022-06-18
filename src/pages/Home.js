@@ -1,4 +1,5 @@
 import React from 'react'
+import Transitions from '../components/Transition';
 
 function Home() {
 
@@ -26,7 +27,7 @@ function Home() {
       ]
     }];
   return (
-    <>
+    <Transitions>
       <h1>Syamsul Arifin</h1>
       <h1>Web Developer</h1>
       <h1>Based on Indonesia</h1>
@@ -50,7 +51,7 @@ function Home() {
           </div>
         </div>
       </div>
-    </>
+    </Transitions>
   )
 }
 

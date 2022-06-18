@@ -19,10 +19,8 @@ const variants = {
   }
 };
 
-const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF"];
-
 export const MenuItem = ({ i, url, name }) => {
-  const style = { border: `2px solid ${colors[i]}`};
+  const style = { border: `2px solid var(--white)`, color:'var(--white)'};
   return (
     <Link to={url}>
     <motion.li
