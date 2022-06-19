@@ -1,57 +1,34 @@
-import React from 'react'
-import Transitions from '../components/Transition';
+import React from 'react';
+import me from '../about.json';
 
 function Home() {
-
-  const leftContent = [
-    {
-      title: 'Biography',
-      lists:
-        ['Work for money and codes for love',
-          'I\'m Syamsul Arifin, Web Developer Based on Indonesia'
-        ]
-    },
-    {
-      title: 'Contact',
-      lists: [
-        'Malang, East Java',
-        'blacktomang@gmail.com',
-        '+62895352530708'
-      ]
-    },
-    {
-      title: 'Service',
-      lists: [
-        'Backend Developer',
-        'ReactJS Developer'
-      ]
-    }];
+  const { name, job } = me;
   return (
-    <Transitions>
-      <h1>Syamsul Arifin</h1>
-      <h1>Web Developer</h1>
-      <h1>Based on Indonesia</h1>
-
-      <div className="main-content">
-        <div className="left-content-wrap">
-          <div className='left-content'>
-            {
-              leftContent.map((content, i) => <div key={i} style={{textAlign:'left'}}><h2 className='content-title'>{content.title}</h2><ul>{content.lists.map((list, i) => <li key={i}>{list}</li>)}</ul></div>)
-            }
-          </div>
-        </div>
-        <div className="photo-wrapper">
-        <div className="my-photo"><img src="/me.jpg" alt="Syamsul Arifin" /></div>
-        </div>
-        <div className="right-content-wrap">
-          <div className='right-content'>
-            {
-              leftContent.map((content, i) => <div key={i} style={{textAlign:'right'}}><h2 className='content-title'>{content.title}</h2><ul>{content.lists.map((list, i) => <li key={i}>{list}</li>)}</ul></div>)
-            }
+    <header id="fh5co-header" className="fh5co-cover js-fullheight" role="banner" style={{ backgroundImage:'url(images/cover_bg_3.jpg)'}} data-stellar-background-ratio="0.5">
+      <div className="overlay"></div>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-8 col-md-offset-2 text-center">
+            <div className="display-t js-fullheight">
+              <div className="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+                <div className="profile-thumb" style={{ backgroundImage:'url(me.jpg)'}}></div>
+                <h1><span>{name}</span></h1>
+                <h3><span>{job}</span></h3>
+                {/* <p> */}
+                <p></p>
+                  <ul className="fh5co-social-icons">
+                    <li><a href="/#"><i className="icon-twitter2"></i></a></li>
+                    <li><a href="/#"><i className="icon-facebook2"></i></a></li>
+                    <li><a href="/#"><i className="icon-linkedin2"></i></a></li>
+                    <li><a href="/#"><i className="icon-dribbble2"></i></a></li>
+                  </ul>
+                {/* </p> */}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </Transitions>
+    </header>
   )
 }
 

@@ -1,0 +1,59 @@
+{
+  "data": [
+    {
+      "type": "head",
+      "icon":"work",
+      "text": "Work Experience"
+    },
+    {
+      "type": "item",
+      "icon":"work",
+      "title": "Internship Software Engineer",
+      "company": "Fishlog",
+      "date": "January 2021 - Mei 2021",
+      "text": "Work Experience",
+      "url": "https://fishlog.co.id"
+    },
+    {
+      "type": "item",
+      "icon":"work",
+      "title": "Software Engineer",
+      "company": "Alfathtech",
+      "date": "Juni 2021 - now",
+      "text": "Work Experience",
+      "url": "https://alfathtech.co.id"
+    },
+    {
+      "type": "head",
+      "icon":"edu",
+      "text": "Education"
+    },
+    {
+      "type":"item",
+      "icon":"edu",
+      "title":"JavaScript Algorithms and Data Structures",
+      "url":"https://www.freecodecamp.org/certification/fcc62c038ee-af54-4ddd-9264-2474ffe2c885/javascript-algorithms-and-data-structures",
+      "company":"FreecodeCamp",
+      "text":"A free course that builds knowledge on algorithms and data structures using javascript.",
+      "date":"Issued September 15, 2020"
+    },
+    {
+      "type": "item",
+      "icon":"edu",
+      "title": "Front End Development Libraries",
+      "url": "https://www.freecodecamp.org/certification/fcc62c038ee-af54-4ddd-9264-2474ffe2c885/front-end-development-libraries",
+      "company": "FreecodeCamp",
+      "text": "A free course that builds knowledge about FE libraries like Bootstrap, JQuery, React and Redux.",
+      "date": "Issued June 11, 2022"
+    },
+    {
+      "type": "item",
+      "icon":"edu",
+      "title": "Complete NodeJS Developer in 2022",
+      "url": "https://www.udemy.com/certificate/UC-a9460bec-a254-46bf-828c-5219ee4ec2b8/",
+      "company": "Udemy",
+      "text": "A paid course that builds knowledge about NodeJS, GraphQL, AWS and more.",
+      "date": "Issued Jun 15, 2022"
+    }
+  ]
+}
