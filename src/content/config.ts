@@ -44,6 +44,7 @@ const experience = defineCollection({
     startedAt: z.coerce.date(),
     endedAt: z.coerce.date().optional(),
     context: z.string().optional(),
+    summary: z.string().optional(),
   }),
 });
 

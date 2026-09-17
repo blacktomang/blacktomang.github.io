@@ -1,42 +1,56 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Compass from '../components/marks/Compass.astro';
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 const formatRoleDate = (date: Date) => date.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'short',
 });
 
-const experienceEntries = (await getCollection('experience'))
-  .sort((a, b) => {
-    const currentFirst = Number(!b.data.endedAt) - Number(!a.data.endedAt);
-    return currentFirst || b.data.startedAt.valueOf() - a.data.startedAt.valueOf();
-  });
-
-const roles = await Promise.all(experienceEntries.map(async entry => ({
-  ...entry.data,
-  Content: (await render(entry)).Content,
-})));
+const roles = (await getCollection('experience')).sort((a, b) => {
+  const currentFirst = Number(!b.data.endedAt) - Number(!a.data.endedAt);
+  return currentFirst || b.data.startedAt.valueOf() - a.data.startedAt.valueOf();
+});
 ---
 
 <BaseLayout title="Work | Syamsul Arifin">
   <Compass />
-  <h1 class="page-title">Work</h1>
+  <div class="title-row">
+    <h1 class="page-title">Work</h1>
+    <a
+      class="cv-link"
+      href="https://docs.google.com/document/d/1MMoGgX_74Wo_-xqj6dSiF7Q5RsW2D0vW/edit?usp=sharing&ouid=111681186508868118612&rtpof=true&sd=true"
+      rel="noopener"
+      target="_blank"
+    >      <span class="cv-icon" aria-hidden="true">
+        <svg class="icon-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+          <path d="M14 3v5h5" />
+        </svg>
+        <svg class="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v12" />
+          <path d="M7 10l5 5 5-5" />
+          <path d="M5 21h14" />
+        </svg>
+      </span>
+      Download CV
+    </a>
+  </div>
 
   <p class="lede">
     Five plus years building things across the stack.
-    A short version follows; ask for details over email.
+    A short version follows.
   </p>
 
   {roles.map(role => (
     <section class="role">
-      <h2>{role.company} <span class="muted">/ {role.role}</span></h2>
+      <h2>{role.data.company} <span class="muted">/ {role.data.role}</span></h2>
       <p class="meta">
-        {formatRoleDate(role.startedAt)} to {role.endedAt ? formatRoleDate(role.endedAt) : 'present'}
-        {role.context && ` · ${role.context}`}
+        {formatRoleDate(role.data.startedAt)} to {role.data.endedAt ? formatRoleDate(role.data.endedAt) : 'present'}
+        {role.data.context && ` · ${role.data.context}`}
       </p>
-      <role.Content />
+      {role.data.summary && <p class="summary">{role.data.summary}</p>}
     </section>
   ))}
 
@@ -46,8 +60,36 @@ const roles = await Promise.all(experienceEntries.map(async entry => ({
   </p>
 </BaseLayout>
 
+<script>
+  const cvLink = document.querySelector<HTMLAnchorElement>('.cv-link');
+  cvLink?.addEventListener('click', (event) => {
+    event.preventDefault();
+    const icon = cvLink.querySelector<HTMLElement>('.icon-download');
+    const url = cvLink.href;
+
+    if (!icon) {
+      window.open(url, '_blank', 'noopener');
+      return;
+    }
+
+    icon.classList.add('is-bouncing');
+    const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 600;
+    window.setTimeout(() => {
+      window.open(url, '_blank', 'noopener');
+      icon.classList.remove('is-bouncing');
+    }, duration);
+  });
+</script>
+
 <style>
-  .page-title { margin-top: var(--space-lg); }
+  .title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+  .page-title { margin: 0; }
   .lede { color: var(--ink-soft); margin-bottom: var(--space-xl); }
   .role + .role { margin-top: var(--space-lg); }
   .role h2 {
@@ -60,11 +102,78 @@ const roles = await Promise.all(experienceEntries.map(async entry => ({
     font-weight: 400;
   }
   .role .meta {
-    margin: 0.25em 0 0.75em;
+    margin: 0.25em 0 0.5em;
+  }
+  .role .summary {
+    margin: 0;
+    color: var(--ink);
   }
   .contact {
     margin-top: var(--space-xl);
     padding-top: var(--space-lg);
     border-top: 1px solid var(--rule);
+  }
+
+  .cv-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .cv-link:hover {
+    color: var(--accent);
+  }
+
+  .cv-icon {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+  }
+  .cv-icon svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition:
+      transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 240ms ease;
+  }
+  .cv-icon .icon-file {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .cv-icon .icon-download {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  .cv-link:hover .icon-file {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  .cv-link:hover .icon-download {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .icon-download.is-bouncing {
+    animation: icon-bounce 600ms cubic-bezier(0.28, 0.84, 0.42, 1);
+  }
+
+  @keyframes icon-bounce {
+    0% { transform: translateY(0); }
+    35% { transform: translateY(-5px); }
+    55% { transform: translateY(0); }
+    70% { transform: translateY(-2px); }
+    100% { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .icon-download.is-bouncing { animation: none; }
   }
 </style>
