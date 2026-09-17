@@ -29,6 +29,7 @@ const isActive = (href: string) =>
           {item.label}
         </a>
       ))}
+      <span class="nav-underline" aria-hidden="true"></span>
     </nav>
 
     <button
@@ -56,8 +57,76 @@ const isActive = (href: string) =>
 </header>
 
 <script>
+  function positionUnderline(underline: HTMLElement, target: HTMLElement) {
+    const nav = underline.parentElement;
+    if (!nav) return;
+    const navRect = nav.getBoundingClientRect();
+    const rect = target.getBoundingClientRect();
+    underline.style.left = `${rect.left - navRect.left}px`;
+    underline.style.width = `${rect.width}px`;
+  }
+
+  // On load (and after each View Transition swap), anchor the underline
+  // under the active item so the current section is always marked.
+  function initUnderline() {
+    const underline = document.querySelector<HTMLElement>('.nav-underline');
+    if (!underline) return;
+    const active = document.querySelector<HTMLAnchorElement>('.primary-nav-inline a.active');
+    if (active) {
+      positionUnderline(underline, active);
+      underline.classList.add('is-visible');
+    } else {
+      underline.classList.remove('is-visible');
+    }
+  }
+  document.addEventListener('astro:page-load', initUnderline);
+  initUnderline();
+
   // Event delegation on `document` survives Astro's View Transition DOM swaps,
   // so the menu keeps working after every navigation without re-binding.
+  document.addEventListener('mouseover', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const link = target.closest<HTMLAnchorElement>('.primary-nav-inline a');
+    const underline = document.querySelector<HTMLElement>('.nav-underline');
+    if (!link || !underline) return;
+
+    // Moving from one item to another: collapse the underline into a dot,
+    // then glide to the new item and re-expand into an underline.
+    if (underline.classList.contains('is-visible')) {
+      underline.classList.add('is-morphing');
+      window.setTimeout(() => {
+        positionUnderline(underline, link);
+        underline.classList.remove('is-morphing');
+      }, 180);
+    } else {
+      positionUnderline(underline, link);
+    }
+
+    underline.classList.add('is-visible');
+  });
+
+  document.addEventListener('mouseout', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const nav = target.closest<HTMLElement>('.primary-nav-inline');
+    if (nav) return;
+
+    const underline = document.querySelector<HTMLElement>('.nav-underline');
+    if (!underline) return;
+
+    // Return to the active item, or hide if there is none.
+    const active = document.querySelector<HTMLAnchorElement>('.primary-nav-inline a.active');
+    if (active) {
+      positionUnderline(underline, active);
+      underline.classList.add('is-visible');
+    } else {
+      underline.classList.remove('is-visible');
+    }
+  });
+
   document.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
@@ -153,10 +222,12 @@ const isActive = (href: string) =>
   /* Desktop: inline nav visible, menu button hidden */
   @media (min-width: 720px) {
     .primary-nav-inline {
+      position: relative;
       display: flex;
       gap: 1.4rem;
     }
     .primary-nav-inline a {
+      position: relative;
       font-family: var(--font-mono);
       font-size: 0.74rem;
       letter-spacing: 0.12em;
@@ -167,6 +238,30 @@ const isActive = (href: string) =>
     .primary-nav-inline a:hover,
     .primary-nav-inline a.active {
       color: var(--accent);
+    }
+
+    /* Shared underline that slides between items; width collapses to a dot in transit */
+    .nav-underline {
+      position: absolute;
+      bottom: -0.3rem;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      border-radius: 2px;
+      pointer-events: none;
+      opacity: 0;
+      transition:
+        left 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        width 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-radius 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 200ms ease;
+    }
+    .nav-underline.is-visible {
+      opacity: 1;
+    }
+    .nav-underline.is-morphing {
+      width: 1px;
+      /* border-radius: 50%; */
     }
 
     .nav-toggle { display: none; }
