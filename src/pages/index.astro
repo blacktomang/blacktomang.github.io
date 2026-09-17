@@ -1,90 +1,308 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
-import { formatDate } from '../lib/format';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../lib/format";
 
-const writingEntries = (await getCollection('writing', ({ data }) => !data.draft))
+const writingEntries = (
+  await getCollection("writing", ({ data }) => !data.draft)
+)
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
   .slice(0, 4);
 
-const readingNow = (await getCollection('reading'))
-  .filter(e => e.data.status === 'reading')
+const readingNow = (await getCollection("reading"))
+  .filter((e) => e.data.status === "reading")
   .slice(0, 3);
 ---
 
 <BaseLayout title="Syamsul Arifin">
-  <section class="lede">
-    <p>
-      I'm Syam, a full-stack engineer based in Indonesia. I build with
-      React, Next.js, TypeScript, Node.js, and Laravel across consumer
-      platforms, marketplaces, and EdTech, most recently at eBuddy,
-      where I cut infrastructure costs in half and lifted SEO scores by
-      30%.
+  <section class="hero" aria-labelledby="hero-title">
+    <p class="hero-kicker">
+      <span>Full-stack engineer</span>
+      <span>Indonesia</span>
     </p>
+
+    <h1 id="hero-title">
+      Hi, I'm Syam.<br />
+      <span>I'm currently.</span>
+      <p class="availability">
+        <span aria-hidden="true"></span>
+        Open to a new role
+      </p>
+    </h1>
+
+    <div class="hero-detail">
+      <p class="hero-intro">
+        I work across product and infrastructure with React, TypeScript,
+        Node.js, and Laravel, from user-facing features to the systems behind
+        them.
+      </p>
+      <p class="hero-proof">
+        <span>Recent work</span>
+        Cut infrastructure costs in half and improved SEO scores by 30% at eBuddy.
+      </p>
+    </div>
   </section>
 
-  {writingEntries.length > 0 && (
-    <section>
-      <h2 class="eyebrow">Recent writing</h2>
-      <ul class="post-list">
-        {writingEntries.map(entry => (
-          <li>
-            <a href={`/writing/${entry.id}/`}>{entry.data.title}</a>
-            <p class="meta">
-              {formatDate(entry.data.publishedAt)}
-              {entry.data.readingTime ? ` · ${entry.data.readingTime} min` : ''}
-            </p>
-          </li>
-        ))}
-      </ul>
-      <p><a href="/writing/" class="quiet">All writing →</a></p>
-    </section>
-  )}
+  {
+    writingEntries.length > 0 && (
+      <section>
+        <h2 class="eyebrow">Recent writing</h2>
+        <ul class="post-list">
+          {writingEntries.map((entry) => (
+            <li>
+              <a href={`/writing/${entry.id}/`}>{entry.data.title}</a>
+              <p class="meta">
+                {formatDate(entry.data.publishedAt)}
+                {entry.data.readingTime
+                  ? ` · ${entry.data.readingTime} min`
+                  : ""}
+              </p>
+            </li>
+          ))}
+        </ul>
+        <p>
+          <a href="/writing/" class="quiet">
+            All writing →
+          </a>
+        </p>
+      </section>
+    )
+  }
 
-  {readingNow.length > 0 && (
-    <section>
-      <h2 class="eyebrow">Reading now</h2>
-      <ul class="book-list">
-        {readingNow.map(entry => (
-          <li>
-            <a href={`/reading/${entry.id}/`}>{entry.data.title}</a>
-            <p class="meta">{entry.data.author}</p>
-          </li>
-        ))}
-      </ul>
-      <p><a href="/reading/" class="quiet">All reading →</a></p>
-    </section>
-  )}
+  {
+    readingNow.length > 0 && (
+      <section>
+        <h2 class="eyebrow">Reading now</h2>
+        <ul class="book-list">
+          {readingNow.map((entry) => (
+            <li>
+              <a href={`/reading/${entry.id}/`}>{entry.data.title}</a>
+              <p class="meta">{entry.data.author}</p>
+            </li>
+          ))}
+        </ul>
+        <p>
+          <a href="/reading/" class="quiet">
+            All reading →
+          </a>
+        </p>
+      </section>
+    )
+  }
 </BaseLayout>
 
 <style>
-  .lede {
-    margin: var(--space-lg) 0 var(--space-xl);
-    font-size: 1.2rem;
+  .hero {
+    margin: clamp(2.5rem, 8vw, 5.5rem) 0 var(--space-xl);
+    padding-bottom: clamp(2.5rem, 7vw, 4.5rem);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .availability {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    /* margin: 0 0 var(--space-md); */
+    padding: 0.48rem 0.78rem 0.46rem;
+    border: 1px solid rgba(209, 123, 63, 0.35);
+    border-radius: 999px;
+    background: rgba(209, 123, 63, 0.055);
+    box-shadow:
+      inset 0 1px 0 rgba(232, 225, 210, 0.05),
+      0 0 0 1px rgba(20, 17, 13, 0.4),
+      0 0.35rem 1.2rem rgba(0, 0, 0, 0.12);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: default;
+    transition:
+      border-color 220ms ease,
+      background-color 220ms ease,
+      box-shadow 220ms ease,
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .availability::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 25%,
+      rgba(232, 225, 210, 0.1) 45%,
+      transparent 65%
+    );
+    transform: translateX(-120%);
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .availability:hover {
+    border-color: rgba(209, 123, 63, 0.68);
+    background: rgba(209, 123, 63, 0.09);
+    box-shadow:
+      inset 0 1px 0 rgba(232, 225, 210, 0.08),
+      0 0 0 1px rgba(20, 17, 13, 0.45),
+      0 0.45rem 1.5rem rgba(209, 123, 63, 0.09);
+    transform: translateY(-2px);
+  }
+  .availability:hover::after {
+    transform: translateX(120%);
+  }
+  .availability:active {
+    transform: translateY(0) scale(0.985);
+  }
+  .availability span {
+    position: relative;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow:
+      0 0 0 0.2rem rgba(209, 123, 63, 0.12),
+      0 0 0.8rem rgba(209, 123, 63, 0.5);
+  }
+  .availability span::after {
+    content: "";
+    position: absolute;
+    inset: -0.28rem;
+    border: 1px solid rgba(209, 123, 63, 0.5);
+    border-radius: 50%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .availability span::after {
+      animation: status-pulse 2.4s ease-out infinite;
+    }
+  }
+
+  @keyframes status-pulse {
+    0%,
+    35% {
+      opacity: 0;
+      transform: scale(0.55);
+    }
+    45% {
+      opacity: 0.65;
+    }
+    85%,
+    100% {
+      opacity: 0;
+      transform: scale(1.45);
+    }
+  }
+
+  .hero-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .hero-kicker span + span {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-kicker span + span::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+  .hero h1 span {
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  .hero-detail {
+    display: grid;
+    gap: var(--space-md);
+    margin-top: clamp(1.25rem, 3vw, 2rem);
+  }
+  .hero-detail p {
+    margin: 0;
+  }
+
+  .hero-intro {
+    max-width: 35rem;
+    font-size: 1.08rem;
     line-height: 1.55;
     color: var(--ink);
+    text-wrap: pretty;
   }
-  .lede p { margin: 0; }
 
-  section + section { margin-top: var(--space-xl); }
+  .hero-proof {
+    padding-left: 1rem;
+    border-left: 1px solid var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .hero-proof span {
+    display: block;
+    margin-bottom: 0.2rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
 
-  .post-list, .book-list {
+  @media (min-width: 640px) {
+    .hero-detail {
+      grid-template-columns: minmax(0, 1fr) 12rem;
+      align-items: end;
+    }
+  }
+
+  section + section {
+    margin-top: var(--space-xl);
+  }
+
+  .post-list,
+  .book-list {
     list-style: none;
     padding: 0;
     margin: 0;
   }
-  .post-list li, .book-list li {
+  .post-list li,
+  .book-list li {
     margin-bottom: var(--space-md);
   }
-  .post-list a, .book-list a {
+  .post-list a,
+  .book-list a {
     font-family: var(--font-serif);
     font-size: 1.15rem;
     color: var(--ink);
     text-decoration: none;
     line-height: 1.3;
   }
-  .post-list a:hover, .book-list a:hover { color: var(--accent); }
-  .post-list .meta, .book-list .meta { margin-top: 0.25em; }
+  .post-list a:hover,
+  .book-list a:hover {
+    color: var(--accent);
+  }
+  .post-list .meta,
+  .book-list .meta {
+    margin-top: 0.25em;
+  }
 
   .quiet {
     color: var(--ink-soft);
@@ -93,5 +311,7 @@ const readingNow = (await getCollection('reading'))
     font-size: 0.8rem;
     letter-spacing: 0.04em;
   }
-  .quiet:hover { color: var(--accent); }
+  .quiet:hover {
+    color: var(--accent);
+  }
 </style>
