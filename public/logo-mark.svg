@@ -1,22 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
   <title id="title">Syamsul Arifin SA monogram</title>
-  <desc id="desc">A custom interlocked SA monogram in teal and umber.</desc>
+  <desc id="desc">A stacked SA monogram with an S above an A.</desc>
   <style>
-    .bg { fill: #F2F0EF; }
-    .shadow { stroke: #BBBDBC; }
-    .primary { stroke: #245F73; }
-    .accent { fill: none; stroke: #733E24; }
+    .primary { fill: #245F73; }
+    .accent { fill: #733E24; }
     @media (prefers-color-scheme: dark) {
-      .bg { fill: #101C1E; }
-      .shadow { stroke: #304448; }
-      .primary { stroke: #72B7C6; }
-      .accent { stroke: #D28A68; }
+      .primary { fill: #72B7C6; }
+      .accent { fill: #D28A68; }
     }
   </style>
-  <rect class="bg" width="256" height="256" rx="64"/>
-  <path class="shadow" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)"/>
-  <path class="shadow" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)"/>
-  <path class="primary" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <path class="accent" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <path class="primary" d="M111 190 130 126" fill="none" stroke-width="4" stroke-linecap="round"/>
+  <path class="primary" d="M174 48c-18-14-40-21-64-21-35 0-61 20-61 49 0 31 26 45 58 56 21 7 30 13 30 25 0 12-13 20-30 20-18 0-34-7-49-20l-20 29c19 17 43 25 69 25 37 0 64-22 64-55 0-31-23-45-57-57-22-8-31-13-31-24 0-10 10-17 25-17 15 0 29 5 43 15z"/>
+  <path class="accent" fill-rule="evenodd" d="M128 113 78 220h31l10-25h39l10 25h33l-53-107zm0 43 18 23h-36z"/>
 </svg>
