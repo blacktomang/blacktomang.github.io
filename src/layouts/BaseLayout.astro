@@ -15,10 +15,20 @@ const {
   title,
   description = "Syamsul Arifin, engineer, learning to write. Notes on code, books, and thinking slowly."
 } = Astro.props;
+
+function parseThemeCookie(cookie?: string): 'light' | 'dark' | null {
+  const match = cookie?.match(/(?:^|; )theme=(light|dark)(?:;|$)/);
+  return match?.[1] as 'light' | 'dark' | null ?? null;
+}
+
+const storedTheme = parseThemeCookie(Astro.request.headers.get('cookie'));
+const systemDark = Astro.request.headers.get('sec-ch-prefers-color-scheme') === 'dark';
+const resolvedTheme = storedTheme ?? (systemDark ? 'dark' : 'light');
+const themeColor = resolvedTheme === 'dark' ? '#101C1E' : '#F2F0EF';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme={resolvedTheme}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,7 +36,22 @@ const {
   <meta name="generator" content={Astro.generator} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="alternate" type="application/rss+xml" title="Syamsul Arifin" href="/rss.xml" />
-  <meta name="theme-color" content="#14110D" />
+  <meta name="theme-color" content={themeColor} />
+  <script is:inline>
+    // Guard against browsers that do not send client hints yet.
+    (() => {
+      const html = document.documentElement;
+      const hasStored = html.hasAttribute('data-theme');
+      if (hasStored) return;
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = prefersDark ? 'dark' : 'light';
+      html.dataset.theme = theme;
+      document.querySelector('meta[name="theme-color"]')?.setAttribute(
+        'content',
+        theme === 'dark' ? '#101C1E' : '#F2F0EF'
+      );
+    })();
+  </script>
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
