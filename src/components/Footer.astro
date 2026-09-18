@@ -1,4 +1,6 @@
 ---
+import Icon from "./Icon.astro";
+
 // Edit this line by hand whenever the situation changes.
 // The month stamp at the end makes staleness visible if you forget.
 const currently = "drafting essays I've been meaning to write, May 2026";
@@ -15,8 +17,14 @@ const currently = "drafting essays I've been meaning to write, May 2026";
       <p class="copy">Syamsul Arifin · {new Date().getFullYear()}</p>
       <nav class="social" aria-label="Elsewhere">
         <a href="/now/">Now</a>
-        <a href="https://github.com/" rel="me">GitHub</a>
-        <a href="https://twitter.com/" rel="me">Twitter</a>
+        <a href="https://github.com/" rel="me">
+          <Icon name="github" size={14} />
+          <span>GitHub</span>
+        </a>
+        <a href="https://www.threads.net/" rel="me">
+          <Icon name="threads" size={14} />
+          <span>Threads</span>
+        </a>
         <a href="/rss.xml">RSS</a>
       </nav>
     </div>
@@ -79,6 +87,9 @@ const currently = "drafting essays I've been meaning to write, May 2026";
     gap: 1.1rem;
   }
   .social a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     font-family: var(--font-mono);
     font-size: 0.78rem;
     letter-spacing: 0.06em;
