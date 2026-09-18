@@ -139,11 +139,23 @@ const readingNow = (await getCollection("reading"))
       let activeIndex = 0;
       let readTimeout: ReturnType<typeof setTimeout> | null = null;
 
-      function setMaxHeight() {
+      function measureMaxHeight() {
+        rotator.classList.add("is-setting-up");
+        rotator.classList.add("is-measuring");
+        rotator.classList.remove("is-ready");
+        // Force layout so the measuring styles are applied before reading sizes.
+        rotator.getBoundingClientRect();
         const max = Math.max(
           ...items.map((item) => item.getBoundingClientRect().height)
         );
-        (rotator as HTMLElement).style.height = `${max}px`;
+        (rotator as HTMLElement).style.setProperty(
+          "--rotator-height",
+          `${Math.ceil(max)}px`
+        );
+        rotator.classList.add("is-ready");
+        rotator.classList.remove("is-measuring");
+        rotator.getBoundingClientRect();
+        rotator.classList.remove("is-setting-up");
       }
 
       function revealWords(item: Element) {
@@ -196,8 +208,8 @@ const readingNow = (await getCollection("reading"))
         }, scheduleNext(entering));
       }
 
-      setMaxHeight();
-      window.addEventListener("resize", setMaxHeight);
+      measureMaxHeight();
+      window.addEventListener("resize", measureMaxHeight);
       revealWords(items[activeIndex]);
 
       readTimeout = setTimeout(() => {
@@ -387,7 +399,18 @@ const readingNow = (await getCollection("reading"))
     display: block;
     overflow: hidden;
   }
+  .work-rotator.is-ready {
+    height: var(--rotator-height, auto);
+  }
+
   .work-rotator-item {
+    display: none;
+  }
+  .work-rotator-item.is-active {
+    display: block;
+  }
+
+  .work-rotator.is-ready .work-rotator-item {
     position: absolute;
     inset: 0;
     display: block;
@@ -397,14 +420,21 @@ const readingNow = (await getCollection("reading"))
       transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
       opacity 400ms ease;
   }
-  .work-rotator-item.is-active {
-    position: relative;
+  .work-rotator.is-ready .work-rotator-item.is-active {
     transform: translateY(0);
     opacity: 1;
   }
-  .work-rotator-item.is-leaving {
+  .work-rotator.is-ready .work-rotator-item.is-leaving {
     transform: translateY(-100%);
     opacity: 0;
+  }
+
+  .work-rotator.is-measuring .work-rotator-item {
+    position: relative;
+    display: block;
+    visibility: hidden;
+    transform: none;
+    opacity: 1;
   }
 
   .work-rotator-word {
@@ -420,21 +450,39 @@ const readingNow = (await getCollection("reading"))
     transform: translateY(0);
   }
 
+  /* No-JS fallback: the first active item is fully visible without animation. */
+  .work-rotator:not(.is-ready) .work-rotator-item.is-active .work-rotator-word {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  /* Freeze transitions while the rotator switches from SSR static layout to the animated state. */
+  .work-rotator.is-setting-up .work-rotator-item,
+  .work-rotator.is-setting-up .work-rotator-word {
+    transition: none !important;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .work-rotator {
+    .work-rotator,
+    .work-rotator.is-ready {
       overflow: visible;
       height: auto;
     }
-    .work-rotator-item {
+    .work-rotator-item,
+    .work-rotator.is-ready .work-rotator-item {
       position: static;
       transform: none;
       opacity: 1;
       display: none;
     }
-    .work-rotator-item.is-active {
+    .work-rotator-item.is-active,
+    .work-rotator.is-ready .work-rotator-item.is-active {
       display: block;
     }
-    .work-rotator-word {
+    .work-rotator-word,
+    .work-rotator.is-ready .work-rotator-word,
+    .work-rotator.is-ready .work-rotator-word.is-visible {
       opacity: 1;
       transform: none;
     }
