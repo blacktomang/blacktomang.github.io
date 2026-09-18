@@ -229,9 +229,19 @@ const isActive = (href: string) =>
     if (!(target instanceof Element)) return;
 
     if (target.closest(".theme-toggle")) {
-      const theme =
-        document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-      applyTheme(theme, true);
+      const currentTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+      const nextTheme = currentTheme === "dark" ? "light" : "dark";
+      const sun = document.querySelector<SVGSVGElement>(".theme-icon-sun");
+      const moon = document.querySelector<SVGSVGElement>(".theme-icon-moon");
+      const currentIcon = currentTheme === "dark" ? sun : moon;
+      const nextIcon = nextTheme === "dark" ? sun : moon;
+      currentIcon?.classList.add("is-exiting");
+      nextIcon?.classList.add("is-entering");
+      window.setTimeout(() => {
+        applyTheme(nextTheme, true);
+        currentIcon?.classList.remove("is-exiting");
+        nextIcon?.classList.remove("is-entering");
+      }, 220);
       return;
     }
 
@@ -315,6 +325,7 @@ const isActive = (href: string) =>
   }
 
   .theme-toggle {
+    position: relative;
     display: grid;
     place-items: center;
     width: 1.8rem;
@@ -325,6 +336,7 @@ const isActive = (href: string) =>
     background: var(--paper-deep);
     color: var(--ink-soft);
     cursor: pointer;
+    overflow: hidden;
     transition:
       color 180ms ease,
       border-color 180ms ease,
@@ -340,6 +352,9 @@ const isActive = (href: string) =>
     outline-offset: 3px;
   }
   .theme-icon {
+    position: absolute;
+    inset: 0;
+    margin: auto;
     width: 0.95rem;
     height: 0.95rem;
     fill: none;
@@ -347,6 +362,33 @@ const isActive = (href: string) =>
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 1.6;
+    transition:
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 220ms ease;
+  }
+  .theme-icon.is-exiting {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  .theme-icon.is-entering {
+    display: block !important;
+    transform: translateY(120%);
+    opacity: 0;
+    animation: icon-enter 240ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  @keyframes icon-enter {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-icon.is-exiting,
+    .theme-icon.is-entering {
+      transform: none;
+      opacity: 1;
+      animation: none;
+    }
   }
   .theme-icon-sun {
     display: none;
