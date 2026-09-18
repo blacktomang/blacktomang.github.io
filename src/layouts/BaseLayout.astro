@@ -15,20 +15,10 @@ const {
   title,
   description = "Syamsul Arifin, engineer, learning to write. Notes on code, books, and thinking slowly."
 } = Astro.props;
-
-function parseThemeCookie(cookie?: string): 'light' | 'dark' | null {
-  const match = cookie?.match(/(?:^|; )theme=(light|dark)(?:;|$)/);
-  return match?.[1] as 'light' | 'dark' | null ?? null;
-}
-
-const storedTheme = parseThemeCookie(Astro.request.headers.get('cookie') ?? undefined);
-const systemDark = Astro.request.headers.get('sec-ch-prefers-color-scheme') === 'dark';
-const resolvedTheme = storedTheme ?? (systemDark ? 'dark' : 'light');
-const themeColor = resolvedTheme === 'dark' ? '#101C1E' : '#F2F0EF';
 ---
 
 <!doctype html>
-<html lang="en" data-theme={resolvedTheme}>
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -36,7 +26,7 @@ const themeColor = resolvedTheme === 'dark' ? '#101C1E' : '#F2F0EF';
   <meta name="generator" content={Astro.generator} />
   <link rel="icon" type="image/png+xml" href="/favicon.png" />
   <link rel="alternate" type="application/rss+xml" title="Syamsul Arifin" href="/rss.xml" />
-  <meta name="theme-color" content={themeColor} />
+  <meta name="theme-color" content="#F2F0EF" />
   <script is:inline>
     // Static builds cannot read per-request cookies, so the client must be
     // authoritative. Read the cookie first, then fall back to system preference.
