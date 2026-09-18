@@ -105,19 +105,6 @@ const isActive = (href: string) =>
     underline.style.width = `${rect.width}px`;
   }
 
-  // Only run the logo draw/fill animation on the very first page load.
-  // After that, keep the logo fully rendered to avoid blinking on refresh.
-  function suppressLogoAnimation() {
-    const logos = document.querySelectorAll<SVGElement>(".brand-logo .logo");
-    if (sessionStorage.getItem("logoAnimated") === "true") {
-      logos.forEach((logo) => logo.classList.add("logo--instant"));
-    } else {
-      sessionStorage.setItem("logoAnimated", "true");
-    }
-  }
-  document.addEventListener("astro:page-load", suppressLogoAnimation);
-  suppressLogoAnimation();
-
   // On load (and after each View Transition swap), anchor the underline
   // under the active item so the current section is always marked.
   function initUnderline() {
@@ -307,13 +294,6 @@ const isActive = (href: string) =>
       --logo-secondary: var(--ink);
     }
   }
-  /* Avoid replaying the draw animation on every page refresh / View Transition. */
-  :global(.brand-logo .logo--instant .logo__path) {
-    animation: none !important;
-    fill-opacity: 1 !important;
-    stroke-dashoffset: 0 !important;
-  }
-
   a.brand:hover {
     color: var(--accent);
   }
