@@ -21,7 +21,7 @@ function parseThemeCookie(cookie?: string): 'light' | 'dark' | null {
   return match?.[1] as 'light' | 'dark' | null ?? null;
 }
 
-const storedTheme = parseThemeCookie(Astro.request.headers.get('cookie'));
+const storedTheme = parseThemeCookie(Astro.request.headers.get('cookie') ?? 'dark');
 const systemDark = Astro.request.headers.get('sec-ch-prefers-color-scheme') === 'dark';
 const resolvedTheme = storedTheme ?? (systemDark ? 'dark' : 'light');
 const themeColor = resolvedTheme === 'dark' ? '#101C1E' : '#F2F0EF';
@@ -34,7 +34,7 @@ const themeColor = resolvedTheme === 'dark' ? '#101C1E' : '#F2F0EF';
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content={description} />
   <meta name="generator" content={Astro.generator} />
-  <link rel="icon" type="image/svg+xml" href="/logo-mark.svg" />
+  <link rel="icon" type="image/svg+xml" href="/sa.svg" />
   <link rel="alternate" type="application/rss+xml" title="Syamsul Arifin" href="/rss.xml" />
   <meta name="theme-color" content={themeColor} />
   <script is:inline>
