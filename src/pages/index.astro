@@ -23,11 +23,11 @@ const readingNow = (await getCollection("reading"))
 
     <h1 id="hero-title">
       Hi, I'm Syam.<br />
-      <span>I'm currently.</span>
-      <p class="availability">
+      <span>I'm currently</span>
+      <span class="availability">
         <span aria-hidden="true"></span>
         Open to a new role
-      </p>
+      </span>
     </h1>
 
     <div class="hero-detail">
@@ -36,10 +36,46 @@ const readingNow = (await getCollection("reading"))
         Node.js, and Laravel, from user-facing features to the systems behind
         them.
       </p>
-      <p class="hero-proof">
+      <div class="hero-proof" aria-live="polite" aria-atomic="true">
         <span>Recent work</span>
-        Cut infrastructure costs in half and improved SEO scores by 30% at eBuddy.
-      </p>
+        <span class="work-rotator">
+          {[
+            "Cut infrastructure costs by 50% and improved SEO scores by 30% at eBuddy.",
+            "Restored SSR and eliminated a blank initial page by removing a Redux Persist conflict at eBuddy.",
+            "Shipped AWS Rekognition selfie verification across web and mobile at eBuddy.",
+            "Led the Firestore-to-Typesense migration on GCP for faster, cheaper search at eBuddy.",
+            "Restructured Firestore data and virtualized lists to remove indexing bottlenecks at eBuddy.",
+            "Reduced Laravel backend response times by 50% through query optimization at Score Campus.",
+            "Built real-time chat and Google Calendar scheduling for an EdTech platform at Score Campus.",
+            "Led frontend architecture for e-commerce and client projects at Tjal Technology Studio.",
+            "Rendered live OpenStreetMap delivery routes with WebSockets and polling fallback.",
+            "Introduced Next.js, TypeScript, TanStack Query, and resilient Axios retry handling.",
+            "Delivered e-commerce, affiliate, retail, and enterprise projects end to end at Alfath Tech.",
+            "Built Midtrans payments, webhooks, and scheduled background jobs for Halal Export Indonesia.",
+            "Shipped the CC GOLD Flutter retail app with Firebase OTP authentication.",
+            "Proposed scoped JWT authentication for secure cross-app access at Fishlog.",
+          ].map((item, i) => (
+            <span
+              class={`work-rotator-item${i === 0 ? " is-active" : ""}`}
+              data-index={i}
+              aria-hidden={i !== 0}
+            >
+              {item.split(" ").map((word, wi, arr) => (
+                <>
+                  <span
+                    class="work-rotator-word"
+                    data-word={wi}
+                    style={{ transitionDelay: `${wi * 260}ms` }}
+                  >
+                    {word}
+                  </span>
+                  {wi < arr.length - 1 && <span> </span>}
+                </>
+              ))}
+            </span>
+          ))}
+        </span>
+      </div>
     </div>
   </section>
 
@@ -90,6 +126,86 @@ const readingNow = (await getCollection("reading"))
     )
   }
 </BaseLayout>
+
+<script>
+  (function () {
+    const rotators = document.querySelectorAll(".work-rotator");
+    if (!rotators.length) return;
+
+    rotators.forEach((rotator) => {
+      const items = Array.from(rotator.querySelectorAll(".work-rotator-item"));
+      if (items.length < 2) return;
+
+      let activeIndex = 0;
+      let readTimeout: ReturnType<typeof setTimeout> | null = null;
+
+      function setMaxHeight() {
+        const max = Math.max(
+          ...items.map((item) => item.getBoundingClientRect().height)
+        );
+        (rotator as HTMLElement).style.height = `${max}px`;
+      }
+
+      function revealWords(item: Element) {
+        item.querySelectorAll(".work-rotator-word").forEach((word) => {
+          word.classList.add("is-visible");
+        });
+      }
+
+      function resetWords(item: Element) {
+        item.querySelectorAll(".work-rotator-word").forEach((word) => {
+          word.classList.remove("is-visible");
+        });
+      }
+
+      function scheduleNext(item: Element) {
+        const words = item.querySelectorAll(".work-rotator-word");
+        const lastWord = words[words.length - 1] as HTMLElement | undefined;
+        if (!lastWord) return 2000;
+
+        const lastDelay = parseFloat(lastWord.dataset.word || "0") * 260;
+        const lastDuration = 500;
+        return lastDelay + lastDuration + 1400;
+      }
+
+      function setActive(nextIndex: number) {
+        const leaving = items[activeIndex];
+        const entering = items[nextIndex];
+        activeIndex = nextIndex;
+
+        leaving.classList.add("is-leaving");
+        leaving.classList.remove("is-active");
+        leaving.setAttribute("aria-hidden", "true");
+
+        entering.classList.add("is-active");
+        entering.classList.remove("is-leaving");
+        entering.setAttribute("aria-hidden", "false");
+
+        revealWords(entering);
+
+        const onLeaveDone = () => {
+          leaving.classList.remove("is-leaving");
+          resetWords(leaving);
+          leaving.removeEventListener("transitionend", onLeaveDone);
+        };
+        leaving.addEventListener("transitionend", onLeaveDone);
+
+        if (readTimeout) clearTimeout(readTimeout);
+        readTimeout = setTimeout(() => {
+          setActive((activeIndex + 1) % items.length);
+        }, scheduleNext(entering));
+      }
+
+      setMaxHeight();
+      window.addEventListener("resize", setMaxHeight);
+      revealWords(items[activeIndex]);
+
+      readTimeout = setTimeout(() => {
+        setActive((activeIndex + 1) % items.length);
+      }, scheduleNext(items[activeIndex]));
+    });
+  })();
+</script>
 
 <style>
   .hero {
@@ -258,12 +374,70 @@ const readingNow = (await getCollection("reading"))
     line-height: 1.65;
     color: var(--ink-soft);
   }
-  .hero-proof span {
+  .hero-proof > span:first-child {
     display: block;
     margin-bottom: 0.2rem;
     color: var(--accent);
     letter-spacing: 0.1em;
     text-transform: uppercase;
+  }
+
+  .work-rotator {
+    position: relative;
+    display: block;
+    overflow: hidden;
+  }
+  .work-rotator-item {
+    position: absolute;
+    inset: 0;
+    display: block;
+    transform: translateY(100%);
+    opacity: 0;
+    transition:
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 400ms ease;
+  }
+  .work-rotator-item.is-active {
+    position: relative;
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .work-rotator-item.is-leaving {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  .work-rotator-word {
+    display: inline-block;
+    opacity: 0.35;
+    transform: translateY(0.15em);
+    transition:
+      opacity 500ms ease,
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .work-rotator-word.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-rotator {
+      overflow: visible;
+      height: auto;
+    }
+    .work-rotator-item {
+      position: static;
+      transform: none;
+      opacity: 1;
+      display: none;
+    }
+    .work-rotator-item.is-active {
+      display: block;
+    }
+    .work-rotator-word {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   @media (min-width: 640px) {
