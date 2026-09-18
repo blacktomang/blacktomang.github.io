@@ -1,61 +1,82 @@
 ---
 const path = Astro.url.pathname;
-const isHome = path === '/' || path === '';
+const isHome = path === "/" || path === "";
 
 const navItems = [
-  { href: '/writing/', label: 'Writing' },
-  { href: '/notes/', label: 'Notes' },
-  { href: '/reading/', label: 'Reading' },
-  { href: '/projects/', label: 'Projects' },
-  { href: '/work/', label: 'Work' },
-  { href: '/about/', label: 'About' },
+  { href: "/writing/", label: "Writing" },
+  { href: "/notes/", label: "Notes" },
+  { href: "/reading/", label: "Reading" },
+  { href: "/projects/", label: "Projects" },
+  { href: "/work/", label: "Work" },
+  { href: "/about/", label: "About" },
 ];
 
 const isActive = (href: string) =>
-  href === '/' ? path === '/' : path.startsWith(href);
+  href === "/" ? path === "/" : path.startsWith(href);
 ---
 
 <header class="site-header">
   <div class="site-header-inner">
-    {isHome ? (
-      <span class="brand" aria-label="Syamsul Arifin">
-        <svg class="brand-logo" viewBox="0 0 256 256" aria-hidden="true">
-          <path class="brand-path brand-shadow" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)"/>
-          <path class="brand-path brand-shadow" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)"/>
-          <path class="brand-path brand-primary" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path class="brand-path brand-accent" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path class="brand-path brand-primary" d="M111 190 130 126" fill="none" stroke-width="4" stroke-linecap="round"/>
-        </svg>
-      </span>
-    ) : (
-      <a href="/" class="brand" aria-label="Syamsul Arifin">
-        <svg class="brand-logo" viewBox="0 0 256 256" aria-hidden="true">
-          <path class="brand-path brand-shadow" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)"/>
-          <path class="brand-path brand-shadow" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)"/>
-          <path class="brand-path brand-primary" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path class="brand-path brand-accent" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path class="brand-path brand-primary" d="M111 190 130 126" fill="none" stroke-width="4" stroke-linecap="round"/>
-        </svg>
-      </a>
-    )}
+    {
+      isHome ? (
+        <span class="brand" aria-label="Syamsul Arifin">
+          <svg class="brand-logo" viewBox="0 0 256 256" aria-hidden="true">
+            <rect class="brand-bg" width="256" height="256" rx="64" />
+            <path class="brand-path brand-shadow" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)" />
+            <path class="brand-path brand-shadow" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)" />
+            <path class="brand-path brand-primary" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path class="brand-path brand-accent" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path class="brand-path brand-primary" d="M111 190 130 126" fill="none" stroke-width="4" stroke-linecap="round" />
+          </svg>
+        </span>
+      ) : (
+        <a href="/" class="brand" aria-label="Syamsul Arifin">
+          <svg class="brand-logo" viewBox="0 0 256 256" aria-hidden="true">
+            <rect class="brand-bg" width="256" height="256" rx="64" />
+            <path class="brand-path brand-shadow" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)" />
+            <path class="brand-path brand-shadow" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)" />
+            <path class="brand-path brand-primary" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path class="brand-path brand-accent" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path class="brand-path brand-primary" d="M111 190 130 126" fill="none" stroke-width="4" stroke-linecap="round" />
+          </svg>
+        </a>
+      )
+    }
 
     <div class="header-actions">
       <nav class="primary-nav-inline" aria-label="Primary">
-        {navItems.map(item => (
-          <a href={item.href} class:list={[{ active: isActive(item.href) }]}>
-            {item.label}
-          </a>
-        ))}
+        {
+          navItems.map((item) => (
+            <a href={item.href} class:list={[{ active: isActive(item.href) }]}>
+              {item.label}
+            </a>
+          ))
+        }
         <span class="nav-underline" aria-hidden="true"></span>
       </nav>
 
-      <button type="button" class="theme-toggle" aria-label="Toggle color theme">
-        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+      <button
+        type="button"
+        class="theme-toggle"
+        aria-label="Toggle color theme"
+      >
+        <svg
+          class="theme-icon theme-icon-sun"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <circle cx="12" cy="12" r="3.5"></circle>
-          <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"></path>
+          <path
+            d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"
+          ></path>
         </svg>
-        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20 15.2A8.4 8.4 0 0 1 8.8 4a8.5 8.5 0 1 0 11.2 11.2Z"></path>
+        <svg
+          class="theme-icon theme-icon-moon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M20 15.2A8.4 8.4 0 0 1 8.8 4a8.5 8.5 0 1 0 11.2 11.2Z"
+          ></path>
         </svg>
       </button>
 
@@ -74,11 +95,13 @@ const isActive = (href: string) =>
         Close
       </button>
       <nav class="dialog-nav" aria-label="Primary">
-        {navItems.map(item => (
-          <a href={item.href} class:list={[{ active: isActive(item.href) }]}>
-            {item.label}
-          </a>
-        ))}
+        {
+          navItems.map((item) => (
+            <a href={item.href} class:list={[{ active: isActive(item.href) }]}>
+              {item.label}
+            </a>
+          ))
+        }
       </nav>
     </dialog>
   </div>
@@ -96,49 +119,51 @@ const isActive = (href: string) =>
 
   // Trigger SA logo path draw on first render.
   function animateBrandOnce() {
-    const paths = document.querySelectorAll<SVGPathElement>('.brand-path');
+    const paths = document.querySelectorAll<SVGPathElement>(".brand-path");
     if (!paths.length) return;
-    paths.forEach(path => {
-      path.style.setProperty('--path-length', String(path.getTotalLength()));
-      path.classList.remove('is-drawn');
+    paths.forEach((path) => {
+      path.style.setProperty("--path-length", String(path.getTotalLength()));
+      path.classList.remove("is-drawn");
       void path.getBoundingClientRect();
-      path.classList.add('is-drawn');
+      path.classList.add("is-drawn");
     });
   }
   animateBrandOnce();
 
   // Sticky header state based on scroll position.
   function updateHeaderScroll() {
-    const header = document.querySelector('.site-header');
+    const header = document.querySelector(".site-header");
     if (!header) return;
-    header.classList.toggle('is-scrolled', window.scrollY > 4);
+    header.classList.toggle("is-scrolled", window.scrollY > 4);
   }
-  window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  window.addEventListener("scroll", updateHeaderScroll, { passive: true });
   updateHeaderScroll();
 
   // On load (and after each View Transition swap), anchor the underline
   // under the active item so the current section is always marked.
   function initUnderline() {
-    const underline = document.querySelector<HTMLElement>('.nav-underline');
+    const underline = document.querySelector<HTMLElement>(".nav-underline");
     if (!underline) return;
-    const active = document.querySelector<HTMLAnchorElement>('.primary-nav-inline a.active');
+    const active = document.querySelector<HTMLAnchorElement>(
+      ".primary-nav-inline a.active",
+    );
     if (active) {
       positionUnderline(underline, active);
-      underline.classList.add('is-visible');
+      underline.classList.add("is-visible");
     } else {
-      underline.classList.remove('is-visible');
+      underline.classList.remove("is-visible");
     }
   }
-  document.addEventListener('astro:page-load', initUnderline);
+  document.addEventListener("astro:page-load", initUnderline);
   initUnderline();
 
-  type Theme = 'light' | 'dark';
+  type Theme = "light" | "dark";
 
   function updateThemeToggle(theme: Theme) {
-    const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    toggle?.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
-    toggle?.setAttribute('title', `Switch to ${nextTheme} theme`);
+    const toggle = document.querySelector<HTMLButtonElement>(".theme-toggle");
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    toggle?.setAttribute("aria-label", `Switch to ${nextTheme} theme`);
+    toggle?.setAttribute("title", `Switch to ${nextTheme} theme`);
   }
 
   function setThemeCookie(theme: Theme) {
@@ -150,10 +175,9 @@ const isActive = (href: string) =>
 
   function applyTheme(theme: Theme, persist = false) {
     document.documentElement.dataset.theme = theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute(
-      'content',
-      theme === 'dark' ? '#101C1E' : '#F2F0EF'
-    );
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", theme === "dark" ? "#101C1E" : "#F2F0EF");
     updateThemeToggle(theme);
 
     if (persist) {
@@ -162,77 +186,84 @@ const isActive = (href: string) =>
   }
 
   const currentTheme = document.documentElement.dataset.theme;
-  updateThemeToggle(currentTheme === 'dark' ? 'dark' : 'light');
+  updateThemeToggle(currentTheme === "dark" ? "dark" : "light");
 
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-    const hasStored = /(?:^|; )theme=(?:light|dark)(?:;|$)/.test(document.cookie);
-    if (hasStored) return;
-    applyTheme(event.matches ? 'dark' : 'light');
-  });
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (event) => {
+      const hasStored = /(?:^|; )theme=(?:light|dark)(?:;|$)/.test(
+        document.cookie,
+      );
+      if (hasStored) return;
+      applyTheme(event.matches ? "dark" : "light");
+    });
 
   // Event delegation on `document` survives Astro's View Transition DOM swaps,
   // so the menu keeps working after every navigation without re-binding.
-  document.addEventListener('mouseover', (event) => {
+  document.addEventListener("mouseover", (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
 
-    const link = target.closest<HTMLAnchorElement>('.primary-nav-inline a');
-    const underline = document.querySelector<HTMLElement>('.nav-underline');
+    const link = target.closest<HTMLAnchorElement>(".primary-nav-inline a");
+    const underline = document.querySelector<HTMLElement>(".nav-underline");
     if (!link || !underline) return;
 
     // Moving from one item to another: collapse the underline into a dot,
     // then glide to the new item and re-expand into an underline.
-    if (underline.classList.contains('is-visible')) {
-      underline.classList.add('is-morphing');
+    if (underline.classList.contains("is-visible")) {
+      underline.classList.add("is-morphing");
       window.setTimeout(() => {
         positionUnderline(underline, link);
-        underline.classList.remove('is-morphing');
+        underline.classList.remove("is-morphing");
       }, 180);
     } else {
       positionUnderline(underline, link);
     }
 
-    underline.classList.add('is-visible');
+    underline.classList.add("is-visible");
   });
 
-  document.addEventListener('mouseout', (event) => {
+  document.addEventListener("mouseout", (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
 
-    const nav = target.closest<HTMLElement>('.primary-nav-inline');
+    const nav = target.closest<HTMLElement>(".primary-nav-inline");
     if (nav) return;
 
-    const underline = document.querySelector<HTMLElement>('.nav-underline');
+    const underline = document.querySelector<HTMLElement>(".nav-underline");
     if (!underline) return;
 
     // Return to the active item, or hide if there is none.
-    const active = document.querySelector<HTMLAnchorElement>('.primary-nav-inline a.active');
+    const active = document.querySelector<HTMLAnchorElement>(
+      ".primary-nav-inline a.active",
+    );
     if (active) {
       positionUnderline(underline, active);
-      underline.classList.add('is-visible');
+      underline.classList.add("is-visible");
     } else {
-      underline.classList.remove('is-visible');
+      underline.classList.remove("is-visible");
     }
   });
 
-  document.addEventListener('click', (event) => {
+  document.addEventListener("click", (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
 
-    if (target.closest('.theme-toggle')) {
-      const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    if (target.closest(".theme-toggle")) {
+      const theme =
+        document.documentElement.dataset.theme === "dark" ? "light" : "dark";
       applyTheme(theme, true);
       return;
     }
 
-    const dialog = document.querySelector<HTMLDialogElement>('#nav-dialog');
+    const dialog = document.querySelector<HTMLDialogElement>("#nav-dialog");
     if (!dialog) return;
 
-    if (target.closest('.nav-toggle')) {
+    if (target.closest(".nav-toggle")) {
       dialog.showModal();
       return;
     }
-    if (target.closest('.nav-close')) {
+    if (target.closest(".nav-close")) {
       dialog.close();
       return;
     }
@@ -283,23 +314,41 @@ const isActive = (href: string) =>
     display: block;
     overflow: visible;
   }
+  .brand-bg {
+    fill: var(--ink);
+    transition: fill 240ms ease;
+  }
   .brand-path {
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
+    transition: stroke 240ms ease;
   }
-  .brand-primary { stroke: var(--ink); }
-  .brand-accent { stroke: var(--accent-warm); }
-  .brand-shadow { stroke: var(--rule); opacity: 0.35; }
+  .brand-primary {
+    stroke: var(--accent);
+  }
+  .brand-accent {
+    stroke: var(--accent-warm);
+  }
+  .brand-shadow {
+    stroke: var(--rule);
+    opacity: 0.35;
+  }
   .brand-path.is-drawn {
     stroke-dasharray: var(--path-length);
     stroke-dashoffset: var(--path-length);
     animation: draw-path 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .brand:hover .brand-primary { stroke: var(--accent); }
-  .brand:hover .brand-accent { stroke: var(--accent); }
+  .brand:hover .brand-primary {
+    stroke: var(--paper);
+  }
+  .brand:hover .brand-accent {
+    stroke: var(--paper);
+  }
   @keyframes draw-path {
-    to { stroke-dashoffset: 0; }
+    to {
+      stroke-dashoffset: 0;
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     .brand-path.is-drawn {
@@ -307,7 +356,9 @@ const isActive = (href: string) =>
       animation: none;
     }
   }
-  a.brand:hover { color: var(--accent); }
+  a.brand:hover {
+    color: var(--accent);
+  }
 
   .header-actions {
     display: flex;
@@ -349,12 +400,20 @@ const isActive = (href: string) =>
     stroke-linejoin: round;
     stroke-width: 1.6;
   }
-  .theme-icon-sun { display: none; }
-  :global(html[data-theme='dark']) .theme-icon-sun { display: block; }
-  :global(html[data-theme='dark']) .theme-icon-moon { display: none; }
+  .theme-icon-sun {
+    display: none;
+  }
+  :global(html[data-theme="dark"]) .theme-icon-sun {
+    display: block;
+  }
+  :global(html[data-theme="dark"]) .theme-icon-moon {
+    display: none;
+  }
 
   /* Mobile: menu button visible, inline nav hidden */
-  .primary-nav-inline { display: none; }
+  .primary-nav-inline {
+    display: none;
+  }
 
   .nav-toggle {
     background: transparent;
@@ -367,7 +426,9 @@ const isActive = (href: string) =>
     cursor: pointer;
     padding: 0.25rem 0.4rem;
   }
-  .nav-toggle:hover { color: var(--accent); }
+  .nav-toggle:hover {
+    color: var(--accent);
+  }
 
   /* Desktop: inline nav visible, menu button hidden */
   @media (min-width: 720px) {
@@ -414,7 +475,9 @@ const isActive = (href: string) =>
       /* border-radius: 50%; */
     }
 
-    .nav-toggle { display: none; }
+    .nav-toggle {
+      display: none;
+    }
   }
 
   /* Dialog (mobile only) */
@@ -479,7 +542,9 @@ const isActive = (href: string) =>
     cursor: pointer;
     padding: 0.25rem 0.4rem;
   }
-  .nav-close:hover { color: var(--accent); }
+  .nav-close:hover {
+    color: var(--accent);
+  }
 
   .dialog-nav {
     display: flex;
