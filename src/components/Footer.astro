@@ -1,5 +1,9 @@
 ---
-import Icon from "./Icon.astro";
+import GithubIcon from "./icons/Github.astro";
+import LinkedinIcon from "./icons/Linkedin.astro";
+import NowIcon from "./icons/Now.astro";
+import RssIcon from "./icons/Rss.astro";
+import ThreadsIcon from "./icons/Threads.astro";
 
 // Edit this line by hand whenever the situation changes.
 // The month stamp at the end makes staleness visible if you forget.
@@ -16,20 +20,22 @@ const currently = "drafting essays I've been meaning to write, May 2026";
     <div class="footer-row">
       <p class="copy">Syamsul Arifin · {new Date().getFullYear()}</p>
       <nav class="social" aria-label="Elsewhere">
-        <a href="/now/">Now</a>
+        <a href="/now/" aria-label="Now page">
+          <NowIcon size={14} />
+        </a>
         <a href="https://github.com/blacktomang" rel="me">
-          <Icon name="github" size={14} />
+          <GithubIcon size={14} />
           <!-- <span>GitHub</span> -->
         </a>
         <a href="https://www.threads.com/@arifsaqa" rel="me">
-          <Icon name="threads" size={14} />
+          <ThreadsIcon size={14} />
           <!-- <span>Threads</span> -->
         </a>
         <a href="https://www.linkedin.com/in/syammarif/" rel="me">
-          <Icon name="linkedin" size={14} />
+          <LinkedinIcon size={14} />
         </a>
         <a href="/rss.xml" aria-label="RSS feed">
-          <Icon name="rss" size={14} />
+          <RssIcon size={14} />
         </a>
       </nav>
     </div>
