@@ -18,9 +18,19 @@ const isActive = (href: string) =>
 <header class="site-header">
   <div class="site-header-inner">
     {isHome ? (
-      <span class="brand">Syamsul Arifin</span>
+      <span class="brand" aria-label="Syamsul Arifin">
+        <svg class="brand-logo" viewBox="0 0 48 32" aria-hidden="true">
+          <path class="brand-path" d="M26 6c-5.5 0-10 4-10 9s4.5 7.5 8.5 7.5c2 0 3.5-.5 4.5-1.2"/>
+          <path class="brand-path" d="M8 26c-2.8-1.5-5-4.5-5-8 0-6 5.5-10 11-10s9 4 9 9c0 4.5-2.5 7.5-6 9"/>
+        </svg>
+      </span>
     ) : (
-      <a href="/" class="brand">Syamsul Arifin</a>
+      <a href="/" class="brand" aria-label="Syamsul Arifin">
+        <svg class="brand-logo" viewBox="0 0 48 32" aria-hidden="true">
+          <path class="brand-path" d="M26 6c-5.5 0-10 4-10 9s4.5 7.5 8.5 7.5c2 0 3.5-.5 4.5-1.2"/>
+          <path class="brand-path" d="M8 26c-2.8-1.5-5-4.5-5-8 0-6 5.5-10 11-10s9 4 9 9c0 4.5-2.5 7.5-6 9"/>
+        </svg>
+      </a>
     )}
 
     <div class="header-actions">
@@ -77,6 +87,28 @@ const isActive = (href: string) =>
     underline.style.left = `${rect.left - navRect.left}px`;
     underline.style.width = `${rect.width}px`;
   }
+
+  // Trigger SA logo path draw on first render.
+  function animateBrandOnce() {
+    const paths = document.querySelectorAll<SVGPathElement>('.brand-path');
+    if (!paths.length) return;
+    paths.forEach(path => {
+      path.style.setProperty('--path-length', String(path.getTotalLength()));
+      path.classList.remove('is-drawn');
+      void path.getBoundingClientRect();
+      path.classList.add('is-drawn');
+    });
+  }
+  animateBrandOnce();
+
+  // Sticky header state based on scroll position.
+  function updateHeaderScroll() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+    header.classList.toggle('is-scrolled', window.scrollY > 4);
+  }
+  window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+  updateHeaderScroll();
 
   // On load (and after each View Transition swap), anchor the underline
   // under the active item so the current section is always marked.
@@ -207,7 +239,20 @@ const isActive = (href: string) =>
 
 <style>
   .site-header {
-    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid transparent;
+    background: transparent;
+    transition:
+      background-color 220ms ease,
+      border-color 220ms ease,
+      backdrop-filter 220ms ease;
+  }
+  .site-header.is-scrolled {
+    background: rgb(var(--paper-rgb) / 0.82);
+    border-color: var(--rule);
+    backdrop-filter: blur(10px);
   }
   .site-header-inner {
     max-width: var(--measure);
@@ -220,14 +265,41 @@ const isActive = (href: string) =>
   }
   .brand {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     isolation: isolate;
-    font-family: var(--font-serif);
-    font-weight: 500;
-    font-size: 1.05rem;
-    letter-spacing: -0.01em;
     color: var(--ink);
     text-decoration: none;
+  }
+  .brand-logo {
+    width: 2.4rem;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+  .brand-path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .brand-path.is-drawn {
+    stroke-dasharray: var(--path-length);
+    stroke-dashoffset: var(--path-length);
+    animation: draw-path 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .brand:hover .brand-path {
+    color: var(--accent);
+  }
+  @keyframes draw-path {
+    to { stroke-dashoffset: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brand-path.is-drawn {
+      stroke-dashoffset: 0;
+      animation: none;
+    }
   }
   a.brand:hover { color: var(--accent); }
 
