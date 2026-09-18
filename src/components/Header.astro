@@ -1,4 +1,6 @@
 ---
+import logoSvg from "../../public/logo-inline.svg?raw";
+
 const path = Astro.url.pathname;
 const isHome = path === "/" || path === "";
 
@@ -20,25 +22,11 @@ const isActive = (href: string) =>
     {
       isHome ? (
         <span class="brand" aria-label="Syamsul Arifin">
-          <svg class="brand-logo" viewBox="0 0 256 256" aria-hidden="true">
-            <rect class="brand-bg" width="256" height="256" rx="64" />
-            <path class="brand-path brand-shadow" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)" />
-            <path class="brand-path brand-shadow" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)" />
-            <path class="brand-path brand-primary" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
-            <path class="brand-path brand-accent" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
-            <path class="brand-path brand-primary" d="M111 190 130 126" fill="none" stroke-width="4" stroke-linecap="round" />
-          </svg>
+          <span class="brand-logo" aria-hidden="true" set:html={logoSvg} />
         </span>
       ) : (
         <a href="/" class="brand" aria-label="Syamsul Arifin">
-          <svg class="brand-logo" viewBox="0 0 256 256" aria-hidden="true">
-            <rect class="brand-bg" width="256" height="256" rx="64" />
-            <path class="brand-path brand-shadow" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)" />
-            <path class="brand-path brand-shadow" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)" />
-            <path class="brand-path brand-primary" d="M104 67C78 57 57 70 57 94c0 24 19 34 43 44 18 8 26 16 25 28-1 18-24 28-47 18-12-5-21-12-29-23" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
-            <path class="brand-path brand-accent" d="M111 190 149 63l51 127m-41-49h35" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
-            <path class="brand-path brand-primary" d="M111 190 130 126" fill="none" stroke-width="4" stroke-linecap="round" />
-          </svg>
+          <span class="brand-logo" aria-hidden="true" set:html={logoSvg} />
         </a>
       )
     }
@@ -117,27 +105,18 @@ const isActive = (href: string) =>
     underline.style.width = `${rect.width}px`;
   }
 
-  // Trigger SA logo path draw on first render.
-  function animateBrandOnce() {
-    const paths = document.querySelectorAll<SVGPathElement>(".brand-path");
-    if (!paths.length) return;
-    paths.forEach((path) => {
-      path.style.setProperty("--path-length", String(path.getTotalLength()));
-      path.classList.remove("is-drawn");
-      void path.getBoundingClientRect();
-      path.classList.add("is-drawn");
-    });
+  // Only run the logo draw/fill animation on the very first page load.
+  // After that, keep the logo fully rendered to avoid blinking on refresh.
+  function suppressLogoAnimation() {
+    const logos = document.querySelectorAll<SVGElement>(".brand-logo .logo");
+    if (sessionStorage.getItem("logoAnimated") === "true") {
+      logos.forEach((logo) => logo.classList.add("logo--instant"));
+    } else {
+      sessionStorage.setItem("logoAnimated", "true");
+    }
   }
-  animateBrandOnce();
-
-  // Sticky header state based on scroll position.
-  function updateHeaderScroll() {
-    const header = document.querySelector(".site-header");
-    if (!header) return;
-    header.classList.toggle("is-scrolled", window.scrollY > 4);
-  }
-  window.addEventListener("scroll", updateHeaderScroll, { passive: true });
-  updateHeaderScroll();
+  document.addEventListener("astro:page-load", suppressLogoAnimation);
+  suppressLogoAnimation();
 
   // On load (and after each View Transition swap), anchor the underline
   // under the active item so the current section is always marked.
@@ -279,16 +258,7 @@ const isActive = (href: string) =>
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid transparent;
-    background: transparent;
-    transition:
-      background-color 220ms ease,
-      border-color 220ms ease,
-      backdrop-filter 220ms ease;
-  }
-  .site-header.is-scrolled {
-    background: rgb(var(--paper-rgb) / 0.82);
-    border-color: var(--rule);
+    background: rgba(var(--paper), 0.82);
     backdrop-filter: blur(10px);
   }
   .site-header-inner {
@@ -312,50 +282,28 @@ const isActive = (href: string) =>
     width: 2.4rem;
     height: auto;
     display: block;
-    overflow: visible;
   }
-  .brand-bg {
-    fill: var(--ink);
-    transition: fill 240ms ease;
+  .brand-logo :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
   }
-  .brand-path {
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: stroke 240ms ease;
+  /* In dark mode, the foreground A adopts the ink colour. */
+  :global(html[data-theme="dark"]) .brand-logo :global(.logo) {
+    --logo-secondary: var(--ink);
   }
-  .brand-primary {
-    stroke: var(--accent);
-  }
-  .brand-accent {
-    stroke: var(--accent-warm);
-  }
-  .brand-shadow {
-    stroke: var(--rule);
-    opacity: 0.35;
-  }
-  .brand-path.is-drawn {
-    stroke-dasharray: var(--path-length);
-    stroke-dashoffset: var(--path-length);
-    animation: draw-path 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-  .brand:hover .brand-primary {
-    stroke: var(--paper);
-  }
-  .brand:hover .brand-accent {
-    stroke: var(--paper);
-  }
-  @keyframes draw-path {
-    to {
-      stroke-dashoffset: 0;
+  @media (prefers-color-scheme: dark) {
+    :global(html:not([data-theme])) .brand-logo :global(.logo) {
+      --logo-secondary: var(--ink);
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .brand-path.is-drawn {
-      stroke-dashoffset: 0;
-      animation: none;
-    }
+  /* Avoid replaying the draw animation on every page refresh / View Transition. */
+  :global(.brand-logo .logo--instant .logo__path) {
+    animation: none !important;
+    fill-opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
   }
+
   a.brand:hover {
     color: var(--accent);
   }

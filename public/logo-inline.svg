@@ -1,0 +1,102 @@
+<svg
+  class="logo"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 303.75 219"
+  role="img"
+  aria-labelledby="logo-title"
+>
+  <title id="logo-title">A logo</title>
+
+  <style>
+    .logo {
+      --logo-primary: #fbb03b;
+      --logo-secondary: #282829;
+      --logo-draw-duration: 1.2s;
+      --logo-draw-stagger: 0.16s;
+    }
+
+    .logo__path {
+      fill: var(--path-color);
+      fill-opacity: 0;
+      stroke: var(--path-color);
+      stroke-width: 1;
+      stroke-linejoin: miter;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      vector-effect: non-scaling-stroke;
+      animation:
+        logo-draw var(--logo-draw-duration) ease forwards,
+        logo-fill 0.25s ease var(--fill-delay) forwards;
+    }
+
+    .logo__path--rear,
+    .logo__path--s {
+      --path-color: var(--logo-primary);
+      --fill-delay: var(--logo-draw-duration);
+    }
+
+    .logo__path--a {
+      --path-color: var(--logo-secondary);
+      --fill-delay: calc(var(--logo-draw-duration) + var(--logo-draw-stagger));
+      animation-delay: var(--logo-draw-stagger), var(--fill-delay);
+    }
+
+    .logo__path--accent {
+      --path-color: var(--logo-primary);
+      --fill-delay: calc(
+        var(--logo-draw-duration) +
+        var(--logo-draw-stagger) +
+        var(--logo-draw-stagger)
+      );
+      animation-delay:
+        calc(var(--logo-draw-stagger) + var(--logo-draw-stagger)),
+        var(--fill-delay);
+    }
+
+    @keyframes logo-draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes logo-fill {
+      to { fill-opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .logo__path {
+        animation: none;
+        fill-opacity: 1;
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+
+  <!-- S: traced from the original SVG mask -->
+  <path
+    class="logo__path logo__path--rear logo__path--s"
+    pathLength="1"
+    transform="matrix(0.0174336 0 0 -0.0174039 0 218.1609263)"
+    d="M7187 12499 l-15 -24 -154 -270 -155 -270 -1298 -2260
+       -1297 -2260 -33 -57 -33 -56 527 -919 528 -918 663 -1155
+       663 -1155 459 -798 458 -798 0 -4 0 -5 -1991 0 -1991 0
+       5 -17 4 -18 435 -755 435 -755 2892 -3 2892 -2 -4 7 -5 8
+       -1134 1975 -1135 1975 -953 1659 -954 1660 0 16 -1 16
+       600 1047 600 1046 9 -2 9 -3 1039 -1804 1040 -1805 16 -32
+       16 -33 7 0 7 0 442 766 442 766 -5 16 -4 17 -1030 1790
+       -1030 1790 -468 815 -468 815 -8 9 -7 8 -15 -23 z"
+  />
+
+  <!-- Foreground A -->
+  <path
+    class="logo__path logo__path--a"
+    pathLength="1"
+    d="M178.20 91.38 L99.72 219 L138.10 219 L178.20 153
+       L218.60 219 L256.80 219 Z"
+  />
+
+  <!-- Gold diagonal -->
+  <path
+    class="logo__path logo__path--accent"
+    pathLength="1"
+    d="M220.82 84.93 L201.50 115.65 L265.50 219 L303.75 219 Z"
+  />
+</svg>
